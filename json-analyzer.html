@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Analyzer</title>
+    <title>JSON to C# Class Generator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>JSON Analyzer</h1>
+        <h1>JSON to C# Class Generator</h1>
     </header>
     <div class="container">
         <div class="left">
@@ -16,12 +16,14 @@
         </div>
         <div class="middle">
             <button id="analyzeBtn">Analyze</button>
+            <button id="modelBtn">Model</button>
         </div>
         <div class="right">
-            <textarea id="outputJson" placeholder="Output JSON here" readonly></textarea>
+            <!-- Style this div to look like a textarea -->
+            <div id="outputJson" class="output-box" placeholder="Generated class files will be listed here"></div>
         </div>
     </div>
-
     <script src="validate-json.js"></script>
+    <script src="generate-models.js"></script>
 </body>
 </html>
