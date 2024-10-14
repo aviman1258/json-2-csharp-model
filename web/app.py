@@ -9,12 +9,16 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='web/static', static_url_path='/static')
 CORS(app)
 
 # Register the blueprints
 app.register_blueprint(analyze_bp)
 app.register_blueprint(model_bp)
+
+@app.route('/json-analyzer')
+def serve_analyzer():
+    return render_template('json-analyzer.html')
 
 # Serve json-analyzer.html as a template
 @app.route('/')
@@ -29,8 +33,5 @@ def open_browser():
 if __name__ == "__main__":
     if os.environ.get('FLASK_DEBUG') == 'production':
         Timer(1, open_browser).start()  # Open the browser after a 1-second delay
-        debugval = False
-    else:
-        debugval = True
     
-    app.run(debug=debugval)
+    app.run(debug=False)

@@ -4,11 +4,27 @@ services:
   flask-app:
     build:
       context: .
-      dockerfile: Dockerfile  # Make sure this matches the Dockerfile name
-    ports:
-      - "5000:5000"           # Map container port 5000 to host port 5000
+      dockerfile: Dockerfile
     environment:
-      - FLASK_DEBUG=production # Set environment variable to production mode
+      - FLASK_DEBUG=production
     volumes:
-      - .:/app                # Mount the current directory to the container's /app directory
-    restart: unless-stopped    # Automatically restart the container if it stops
+      - .:/app
+    expose:
+      - "5000"  # Expose Flask's internal port, no need to map it to the host in production
+    restart: unless-stopped
+  
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  # Ensure this path is correct
+      - ./web/static:/app/web/static        # Map the static folder for Nginx access
+    depends_on:
+      - flask-app
+    restart: unless-stopped
+
+networks:
+  default:
+    driver: bridge  # Ensure both containers share the same Docker network
